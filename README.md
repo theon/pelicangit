@@ -8,9 +8,9 @@ The script will start a simple HTTP server. When the server recieves a POST (fro
 
 Prerequisites:
 
- * Install setuptools ((http://pypi.python.org/pypi/setuptools))
- * Install pip with `curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py | sudo python` ((http://www.pip-installer.org/en/latest/installing.html))
- * Install pelican with `sudo pip install pelican` ((http://pelican.notmyidea.org/en/2.8/getting_started.html#installing))
+ * Install setuptools [](http://pypi.python.org/pypi/setuptools)
+ * Install pip with `curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py | sudo python` (http://www.pip-installer.org/en/latest/installing.html
+ * Install pelican with `sudo pip install pelican` (http://pelican.notmyidea.org/en/2.8/getting_started.html#installing)
  ** Be sure to install markdown if required with `sudo pip install Markdown` and any themes you require with `pelican-themes` 
  * Install gitpython with `sudo easy_install gitpython`
 
