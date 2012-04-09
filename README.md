@@ -6,6 +6,12 @@ The script will start a simple HTTP server. When the server recieves a POST (fro
 
 [toc]
 
+## To Do
+
+ * Explain the variables in the script in more detail
+ * Move the variables in the script so that they live in with the standard pelican config file?
+ * Copy the commit message(s) from the source repo (containing the markdown) and use it when commiting the resulting HTML to the deploy repo.
+
 ## Installing
 
 ### Prerequisites:
@@ -20,8 +26,6 @@ The script will start a simple HTTP server. When the server recieves a POST (fro
 
  * Clone git repo with `git clone git@github.com:theon/pelican-git.git`
  * Set the variables at the top of the script to appropriate values, especially the ones starting SOURCE_GIT and DEPLOY_GIT
- ** TODO: explain what these variables are
- ** TODO: move these variables to a seperate config py file (combine with pelican config file?)
 
 #### Running Directly
 
@@ -37,3 +41,7 @@ This git repo has an upstart config I have used on ubuntu running in Amazon EC2.
  * Update the upstart/pelicangit.conf `exec` line to run pelicangit as the user you want. Currently runs as user `ubuntu`.
  * Copy upstart/pelicangit.conf to /etc/init/
  * Run `sudo start pelicangit`
+
+## Also See
+
+[Blog article explaining why I created this script](http://theon.github.com/powering-your-blog-with-pelican-and-git.html)
