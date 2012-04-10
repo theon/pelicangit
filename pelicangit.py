@@ -24,6 +24,10 @@ DEPLOY_GIT_BRANCH="master"
 
 COMMIT_MESSAGE="Auto Blog Rebuild from PelicanGit"
 
+WHITELISTED_FILES = [
+    "googled50a97559ea3af0e.html"
+]
+
 class GitHookRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
     def do_GET(self):
         self.do_response(GET_RESPONSE_BODY)
@@ -83,9 +87,10 @@ class GitHookRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             localPath = localPath.replace(path, "")
 
             for f in files:
-                os.unlink(os.path.join(root, f))
-                print os.path.join(localPath, f)
-                index.remove([os.path.join(localPath, f)])
+                if(localPath not in WHITELISTED_FILES)
+                    os.unlink(os.path.join(root, f))
+                    print os.path.join(localPath, f)
+                    index.remove([os.path.join(localPath, f)])
         
 
 httpd = SocketServer.ForkingTCPServer(('', PORT), GitHookRequestHandler)
