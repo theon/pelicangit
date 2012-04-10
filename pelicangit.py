@@ -40,10 +40,13 @@ class GitHookRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             sourceOrigin = sourceRepo.remote(SOURCE_GIT_REMOTE_NAME)
             sourceOrigin.pull(SOURCE_GIT_BRANCH)
 
+            print "Pulling Deploy Git Repo." 
             deployRepo = Repo(DEPLOY_GIT_REPO)
-            deployIndex = deployRepo.index
-
+            deployOrigin = deployRepo.remote(DEPLOY_GIT_REMOTE_NAME)
+            deployOrigin.pull(DEPLOY_GIT_BRANCH)
+            
             print "Clean Deploy Git Working Directory"
+            deployIndex = deployRepo.index
             self.nukeGitWorkingDir(DEPLOY_GIT_REPO, deployIndex)
 
             print "Running Pelican Build." 
@@ -59,7 +62,6 @@ class GitHookRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             deployIndex.commit(COMMIT_MESSAGE)
 
             print "Pushing Deploy Git Repo"
-            deployOrigin = deployRepo.remote(DEPLOY_GIT_REMOTE_NAME)
             deployOrigin.push(DEPLOY_GIT_BRANCH)
 
             #else:
