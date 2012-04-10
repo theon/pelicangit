@@ -9,6 +9,8 @@ The script will start a simple HTTP server. When the server recieves a POST (fro
  * Add the ability to whitelist files to keep (at the moment any files not created by pelican get whacked during a build).
  * Move the variables in the script so that they live in with the standard pelican config file? Also explain these variables in more detail in these docs.
  * Copy the commit message(s) from the source repo (containing the markdown) and use it when commiting the resulting HTML to the deploy repo.
+ * Option to specify the user/SSh keypair to use
+ * Submit as a python package [here](http://pypi.python.org/pypi?%3Aaction=submit_form)
 
 ## Installing
 
