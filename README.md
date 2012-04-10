@@ -4,12 +4,10 @@ PelicanGit is a python script that will automatically build your Pelican powered
 
 The script will start a simple HTTP server. When the server recieves a POST (from a git service hook, indicating you have pushed a new blog post in markdown or restructuredtext), it will pull down these updates, run pelican to compile them to HTML and then commit and push the resulting HTML into another git repository (e.g. a github pages repo).
 
-[toc]
-
 ## To Do
 
- * Explain the variables in the script in more detail
- * Move the variables in the script so that they live in with the standard pelican config file?
+ * Add the ability to whitelist files to keep (at the moment any files not created by pelican get whacked during a build).
+ * Move the variables in the script so that they live in with the standard pelican config file? Also explain these variables in more detail in these docs.
  * Copy the commit message(s) from the source repo (containing the markdown) and use it when commiting the resulting HTML to the deploy repo.
 
 ## Installing
