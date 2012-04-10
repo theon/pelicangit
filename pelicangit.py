@@ -89,7 +89,7 @@ class GitHookRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             localPath = localPath.replace(path, "")
 
             for f in files:
-                if(localPath not in WHITELISTED_FILES)
+                if localPath not in WHITELISTED_FILES:
                     os.unlink(os.path.join(root, f))
                     print os.path.join(localPath, f)
                     index.remove([os.path.join(localPath, f)])
