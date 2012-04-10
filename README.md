@@ -32,14 +32,14 @@ The script will start a simple HTTP server. When the server recieves a POST (fro
 
 #### Running with Upstart
 
-Upstart will keep pelican git long running (restart it if it crashed, or the machine reboots).
-This git repo has an upstart config I have used on ubuntu running in Amazon EC2.
+Upstart will keep pelicangit long running (will restart it if it crashes, or the machine reboots).
+This git repo contains an upstart config I have used on ubuntu running in Amazon EC2.
 
- * Update the upstart/pelicangit.conf `exec` line to use your pelican command. Only replace stuff after the double hyphen.
+ * Update the upstart/pelicangit.conf `exec` line to use your pelicangit command. Only replace stuff after the double hyphen.
  * Update the upstart/pelicangit.conf `exec` line to run pelicangit as the user you want. Currently runs as user `ubuntu`.
  * Copy upstart/pelicangit.conf to /etc/init/
  * Run `sudo start pelicangit`
 
 ## Also See
 
-[Blog article explaining why I created this script](http://theon.github.com/powering-your-blog-with-pelican-and-git.html)
+[Blog article](http://theon.github.com/powering-your-blog-with-pelican-and-git.html)
