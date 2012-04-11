@@ -23,6 +23,6 @@ def main():
 
     whitelisted_files = settings['GIT_WHITELISTED_FILES']
 
-    httpd = SocketServer.ForkingTCPServer(('', PORT), GitHookRequestHandler(source_repo, deploy_repo, whitelisted_files))
+    httpd = GitHookServer(('', PORT), GitHookRequestHandler, source_repo, deploy_repo, whitelisted_files)
     print "PelicanGit listening on port", PORT
     httpd.serve_forever()

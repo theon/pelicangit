@@ -9,13 +9,17 @@ GET_RESPONSE_BODY = "<h1>PelicanGit is Running</h1>"
 POST_RESPONSE_BODY = "<h1>Pelican Project Rebuilt</h1>"
 ERROR_RESPONSE_BODY = "<h1>Error</h1>"
 
-class GitHookRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
+class GitHookServer(SocketServer.TCPServer):
     
-    def __init__(self, source_repo, deploy_repo, whitelisted_files):
+    def __init__(self, server_address, handler_class, source_repo, deploy_repo, whitelisted_files):
         self.source_repo = source_repo
         self.deploy_repo = deploy_repo
         self.whitelisted_files = whitelisted_files
-    
+        SocketServer.TCPServer.__init__(self, server_address, handler_class)
+        return
+
+class GitHookRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
+
     def do_GET(self):
         self.do_response(GET_RESPONSE_BODY)
 
@@ -29,11 +33,11 @@ class GitHookRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             main()
 
             # Add all files newly created by pelican, then commit and push everything
-            self.deploy_repo.add(['.'])
+            self.server.deploy_repo.add(['.'])
 
-            commit_message = source_repo.log(['-n1', '--pretty=format:"%h %B"'])
-            self.deploy_repo.commit(commit_message, ['-a'])
-            self.deploy_repo.push([self.deploy_repo.origin, self.deploy_repo.master])
+            commit_message = self.server.source_repo.log(['-n1', '--pretty=format:"%h %B"'])
+            self.server.deploy_repo.commit(commit_message, ['-a'])
+            self.server.deploy_repo.push([self.server.deploy_repo.origin, self.server.deploy_repo.master])
 
             self.do_response(POST_RESPONSE_BODY)
         except Exception as e:
@@ -52,11 +56,11 @@ class GitHookRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         self.wfile.write(resBody)
 
     def hard_reset_repos(self):
-        self.source_repo.fetch([self.source_repo.origin])
-        self.source_repo.reset(['--hard', self.source_repo.originMaster])
+        self.server.source_repo.fetch([self.server.source_repo.origin])
+        self.server.source_repo.reset(['--hard', self.server.source_repo.originMaster])
         
-        self.deploy_repo.fetch([self.deploy_repo.origin])
-        self.deploy_repo.reset(['--hard', self.deploy_repo.originMaster])
+        self.server.deploy_repo.fetch([self.server.deploy_repo.origin])
+        self.server.deploy_repo.reset(['--hard', self.server.deploy_repo.originMaster])
 
     def nuke_git_cwd(self, git_repo):
         for root, dirs, files in os.walk(git_repo.repoDir):
@@ -68,5 +72,5 @@ class GitHookRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
             for f in files:
                 local_file = os.path.join(local_dir, f)
-                if local_file not in whitelisted_files:
+                if local_file not in self.server.whitelisted_files:
                     git_repo.rm(['-r', local_file])
