@@ -38,7 +38,7 @@ class GitHookRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             # Add all files newly created by pelican, then commit and push everything
             deploy_repo.add(['.'])
 
-            commit_message = source_repo.log(['-n1', '--pretty="format:%h %B"'])
+            commit_message = source_repo.log(['-n1', '--pretty=format:"%h %B"'])
             deploy_repo.commit(commit_message, ['-a'])
             deploy_repo.push([deploy_repo.origin, deploy_repo.master])
 
@@ -70,12 +70,13 @@ class GitHookRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             #If we are anywhere in the .git directory, then skip this iteration
             if re.match("^.*\.git(/.*)?$", root): continue
 
-            local_path = root.replace(git_repo.repoDir + "/", "")
-            local_path = local_path.replace(git_repo.repoDir, "")
+            local_dir = root.replace(git_repo.repoDir + "/", "")
+            local_dir = local_dir.replace(git_repo.repoDir, "")
 
             for f in files:
-                if local_path not in whitelisted_files:
-                    git_repo.rm(['-r', os.path.join(local_path, f)])
+                local_file = os.path.join(local_dir, f)
+                if local_file not in whitelisted_files:
+                    git_repo.rm(['-r', local_file])
 
 httpd = SocketServer.ForkingTCPServer(('', PORT), GitHookRequestHandler)
 print "PelicanGit listening on port", PORT
