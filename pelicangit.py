@@ -2,12 +2,11 @@
 
 import SocketServer
 import SimpleHTTPServer
-import urllib
 import os
-import shutil
 import re
-from pelican import main, parse_arguments
-from pelican.settings import read_settings, _DEFAULT_CONFIG
+import argparse
+from pelican import main
+from pelican.settings import read_settings
 from gitbindings import *
 
 PORT = 8080
@@ -88,6 +87,19 @@ class GitHookRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                 local_file = os.path.join(local_dir, f)
                 if local_file not in whitelisted_files:
                     git_repo.rm(['-r', local_file])
+
+# Look to import these function from pelican module down the line.
+# Dupe it here for now for backwards compatibility with older versions of pelican
+def parse_arguments():
+    parser = argparse.ArgumentParser(description="""A tool to generate a
+    static blog, with restructured text input files.""",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        
+    parser.add_argument('-s', '--settings', dest='settings',
+        help='The settings of the application.')
+        
+    return parser.parse_args()
+
 
 httpd = SocketServer.ForkingTCPServer(('', PORT), GitHookRequestHandler)
 print "PelicanGit listening on port", PORT
