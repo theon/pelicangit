@@ -33,7 +33,7 @@ class GitHookRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             self.hard_reset_repos()
             
             # Git Remove all deployRepo files (except those whitelisted) and then rebuild with pelican
-            self.nukeGitWorkingDir(DEPLOY_GIT_REPO, deployRepo) 
+            self.nukeGitWorkingDir(deployRepo) 
             main()
 
             # Add all files newly created by pelican, then commit and push everything
@@ -65,18 +65,17 @@ class GitHookRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         deployRepo.fetch([deployRepo.origin])
         deployRepo.reset(['--hard', deployRepo.originMaster])
 
-    def nukeGitWorkingDir(self, path, gitRepo):
-        for root, dirs, files in os.walk(path):
+    def nukeGitWorkingDir(self, gitRepo):
+        for root, dirs, files in os.walk(gitRepo.repoDir):
             #If we are anywhere in the .git directory, then skip this iteration
             if re.match("^.*\.git(/.*)?$", root): continue
 
-            localPath = root.replace(path + "/", "")
-            localPath = localPath.replace(path, "")
+            localPath = root.replace(gitRepo.repoDir + "/", "")
+            localPath = localPath.replace(gitRepo.repoDir, "")
 
             for f in files:
                 if localPath not in WHITELISTED_FILES:
-                    os.unlink(os.path.join(root, f))
-                    gitRepo.rm(localPath)
+                    gitRepo.rm(['-r', os.path.join(localPath, f)])
         
 
 httpd = SocketServer.ForkingTCPServer(('', PORT), GitHookRequestHandler)

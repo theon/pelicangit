@@ -8,25 +8,27 @@ class GitRepo:
         self.originMaster = origin + '/' + master 
 
     def push(self, args):
-        gitCommand('push', args)
+        self.gitCommand('push', args)
         
     def commit(self, message, args):
-        gitCommand('commit', args.append('-m', '"' + message + '"'))
+        self.gitCommand('commit', args + ['-m', '"' + message + '"'])
 
     def add(self, args):
-        gitCommand('add', args)
+        self.gitCommand('add', args)
 
     def rm(self, args):
-        gitCommand('rm', args)
+        self.gitCommand('rm', args)
     
     def fetch(self, args):
-        gitCommand('fetch', args)
+        self.gitCommand('fetch', args)
     
     def reset(self, args):
-        gitCommand('reset', args)
+        self.gitCommand('reset', args)
 
     def gitCommand(self, firstArg, args):
-        gitCommand(self, args.insert(0, firstArg))
+        args.insert(0, firstArg)
+        self.gitCommandRaw(args)
 
-    def gitCommand(self, args):
-        sp.call(args.insert(0, 'git'), cwd=self.repoDir)
+    def gitCommandRaw(self, args):
+        args.insert(0, 'git')
+        sp.call(args, cwd=self.repoDir)
