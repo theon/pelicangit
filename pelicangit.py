@@ -14,12 +14,11 @@ GET_RESPONSE_BODY = "<h1>PelicanGit is Running</h1>"
 POST_RESPONSE_BODY = "<h1>Pelican Project Rebuilt</h1>"
 ERROR_RESPONSE_BODY = "<h1>Error</h1>"
 
-sourceRepo = GitRepo("/work/blog", "origin", "master")
-deployRepo = GitRepo("/work/theon.github.com", "origin", "master")
+source_repo = GitRepo("/work/blog", "origin", "master")
+deploy_repo = GitRepo("/work/theon.github.com", "origin", "master")
 
-COMMIT_MESSAGE="Auto Blog Rebuild from PelicanGit"
-
-WHITELISTED_FILES = [
+whitelisted_files = [
+    "README.md",
     "googled50a97559ea3af0e.html"
 ]
 
@@ -32,15 +31,16 @@ class GitHookRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             #Hard reset both repos so they match the remote (origin) master branches
             self.hard_reset_repos()
             
-            # Git Remove all deployRepo files (except those whitelisted) and then rebuild with pelican
-            self.nukeGitWorkingDir(deployRepo) 
+            # Git Remove all deploy_repo files (except those whitelisted) and then rebuild with pelican
+            self.nuke_git_cwd(deploy_repo) 
             main()
 
             # Add all files newly created by pelican, then commit and push everything
-            deployRepo.add(['.'])
+            deploy_repo.add(['.'])
 
-            deployRepo.commit(COMMIT_MESSAGE, ['-a'])
-            deployRepo.push([deployRepo.origin, deployRepo.master])
+            commit_message = source_repo.log(['-n1', '--pretty="format:%h %B"'])
+            deploy_repo.commit(commit_message, ['-a'])
+            deploy_repo.push([deploy_repo.origin, deploy_repo.master])
 
             self.do_response(POST_RESPONSE_BODY)
         except Exception as e:
@@ -59,24 +59,23 @@ class GitHookRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         self.wfile.write(resBody)
 
     def hard_reset_repos(self):
-        sourceRepo.fetch([sourceRepo.origin])
-        sourceRepo.reset(['--hard', sourceRepo.originMaster])
+        source_repo.fetch([source_repo.origin])
+        source_repo.reset(['--hard', source_repo.originMaster])
         
-        deployRepo.fetch([deployRepo.origin])
-        deployRepo.reset(['--hard', deployRepo.originMaster])
+        deploy_repo.fetch([deploy_repo.origin])
+        deploy_repo.reset(['--hard', deploy_repo.originMaster])
 
-    def nukeGitWorkingDir(self, gitRepo):
-        for root, dirs, files in os.walk(gitRepo.repoDir):
+    def nuke_git_cwd(self, git_repo):
+        for root, dirs, files in os.walk(git_repo.repoDir):
             #If we are anywhere in the .git directory, then skip this iteration
             if re.match("^.*\.git(/.*)?$", root): continue
 
-            localPath = root.replace(gitRepo.repoDir + "/", "")
-            localPath = localPath.replace(gitRepo.repoDir, "")
+            local_path = root.replace(git_repo.repoDir + "/", "")
+            local_path = local_path.replace(git_repo.repoDir, "")
 
             for f in files:
-                if localPath not in WHITELISTED_FILES:
-                    gitRepo.rm(['-r', os.path.join(localPath, f)])
-        
+                if local_path not in whitelisted_files:
+                    git_repo.rm(['-r', os.path.join(local_path, f)])
 
 httpd = SocketServer.ForkingTCPServer(('', PORT), GitHookRequestHandler)
 print "PelicanGit listening on port", PORT

@@ -7,28 +7,36 @@ class GitRepo:
         self.master = master
         self.originMaster = origin + '/' + master 
 
+    def log(self, args):
+        self.gitOutput('log', args)
+
     def push(self, args):
-        self.gitCommand('push', args)
+        self.git_exec('push', args)
         
     def commit(self, message, args):
-        self.gitCommand('commit', args + ['-m', '"' + message + '"'])
+        self.git_exec('commit', args + ['-m', '"' + message + '"'])
 
     def add(self, args):
-        self.gitCommand('add', args)
+        self.git_exec('add', args)
 
     def rm(self, args):
-        self.gitCommand('rm', args)
+        self.git_exec('rm', args)
     
     def fetch(self, args):
-        self.gitCommand('fetch', args)
+        self.git_exec('fetch', args)
     
     def reset(self, args):
-        self.gitCommand('reset', args)
+        self.git_exec('reset', args)
 
-    def gitCommand(self, firstArg, args):
+    def log(self, args):
+        return self.get_git_output('log', args)
+
+    def git_exec(self, firstArg, args):
         args.insert(0, firstArg)
-        self.gitCommandRaw(args)
-
-    def gitCommandRaw(self, args):
         args.insert(0, 'git')
         sp.call(args, cwd=self.repoDir)
+
+    def get_git_output(self, firstArg, args):
+        args.insert(0, firstArg)
+        args.insert(0, 'git')
+        return sp.check_output(args, cwd=self.repoDir)
