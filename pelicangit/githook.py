@@ -29,7 +29,7 @@ class GitHookRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             self.hard_reset_repos()
             
             # Git Remove all deploy_repo files (except those whitelisted) and then rebuild with pelican
-            self.nuke_git_cwd(deploy_repo) 
+            self.nuke_git_cwd(self.server.deploy_repo) 
             main()
 
             # Add all files newly created by pelican, then commit and push everything
