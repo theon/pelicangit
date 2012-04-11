@@ -6,21 +6,16 @@ import urllib
 import os
 import shutil
 import re
-from git import *
 from pelican import main
+from gitbindings import *
 
 PORT = 8080
-GET_RESPONSE_BODY = """<h1>PelicanGit is Running</h1>"""
-POST_RESPONSE_BODY = """<h1>Pelican Project Rebuilt</h1>"""
-ERROR_RESPONSE_BODY = """<h1>Error</h1>"""
+GET_RESPONSE_BODY = "<h1>PelicanGit is Running</h1>"
+POST_RESPONSE_BODY = "<h1>Pelican Project Rebuilt</h1>"
+ERROR_RESPONSE_BODY = "<h1>Error</h1>"
 
-SOURCE_GIT_REPO="/work/blog"
-SOURCE_GIT_REMOTE_NAME="origin"
-SOURCE_GIT_BRANCH="master"
-
-DEPLOY_GIT_REPO="/work/theon.github.com"
-DEPLOY_GIT_REMOTE_NAME="origin"
-DEPLOY_GIT_BRANCH="master"
+sourceRepo = GitRepo("/work/blog", "origin", "master")
+deployRepo = GitRepo("/work/theon.github.com", "origin", "master")
 
 COMMIT_MESSAGE="Auto Blog Rebuild from PelicanGit"
 
@@ -34,42 +29,25 @@ class GitHookRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
     def do_POST(self):
         try:
-            #TODO: Logging rather than prints
-            print "Pulling Source Git Repo." 
-            sourceRepo = Repo(SOURCE_GIT_REPO)
-            sourceOrigin = sourceRepo.remote(SOURCE_GIT_REMOTE_NAME)
-            sourceOrigin.pull(SOURCE_GIT_BRANCH)
-
-            print "Pulling Deploy Git Repo." 
-            deployRepo = Repo(DEPLOY_GIT_REPO)
-            deployOrigin = deployRepo.remote(DEPLOY_GIT_REMOTE_NAME)
-            deployOrigin.pull(DEPLOY_GIT_BRANCH)
+            #Hard reset both repos so they match the remote (origin) master branches
+            self.hard_reset_repos()
             
-            print "Clean Deploy Git Working Directory"
-            deployIndex = deployRepo.index
-            self.nukeGitWorkingDir(DEPLOY_GIT_REPO, deployIndex)
-
-            print "Running Pelican Build." 
+            # Git Remove all deployRepo files (except those whitelisted) and then rebuild with pelican
+            self.nukeGitWorkingDir(DEPLOY_GIT_REPO, deployRepo) 
             main()
 
-            #TODO: Check if there are any changes and if we actually need to commit/push. 
-            #This is_dirty() check doesn't seem to work 
-            #if deployRepo.is_dirty():
-            print "Adding new files."
-            deployIndex.add(deployRepo.untracked_files)
+            # Add all files newly created by pelican, then commit and push everything
+            deployRepo.add(['.'])
 
-            print "Commiting Deploy Git Repo."
-            deployIndex.commit(COMMIT_MESSAGE)
-
-            print "Pushing Deploy Git Repo"
-            deployOrigin.push(DEPLOY_GIT_BRANCH)
-
-            #else:
-            #    print "Nothing was pulled from remote source git repo! Not pushing anything to deploy repo."
+            deployRepo.commit(COMMIT_MESSAGE, ['-a'])
+            deployRepo.push([deployRepo.origin, deployRepo.master])
 
             self.do_response(POST_RESPONSE_BODY)
         except Exception as e:
             print e
+            
+            #In the event of an excepion, hard reset both repos so they match the remote (origin) master branches
+            self.hard_reset_repos()
             self.do_response(ERROR_RESPONSE_BODY)
 
 
@@ -80,7 +58,14 @@ class GitHookRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(resBody)
 
-    def nukeGitWorkingDir(self, path, index):
+    def hard_reset_repos(self):
+        sourceRepo.fetch([sourceRepo.origin])
+        sourceRepo.reset(['--hard', sourceRepo.originMaster])
+        
+        deployRepo.fetch([deployRepo.origin])
+        deployRepo.reset(['--hard', deployRepo.originMaster])
+
+    def nukeGitWorkingDir(self, path, gitRepo):
         for root, dirs, files in os.walk(path):
             #If we are anywhere in the .git directory, then skip this iteration
             if re.match("^.*\.git(/.*)?$", root): continue
@@ -91,8 +76,7 @@ class GitHookRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             for f in files:
                 if localPath not in WHITELISTED_FILES:
                     os.unlink(os.path.join(root, f))
-                    print os.path.join(localPath, f)
-                    index.remove([os.path.join(localPath, f)])
+                    gitRepo.rm(localPath)
         
 
 httpd = SocketServer.ForkingTCPServer(('', PORT), GitHookRequestHandler)
