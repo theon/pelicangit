@@ -15,6 +15,19 @@ GET_RESPONSE_BODY = "<h1>PelicanGit is Running</h1>"
 POST_RESPONSE_BODY = "<h1>Pelican Project Rebuilt</h1>"
 ERROR_RESPONSE_BODY = "<h1>Error</h1>"
 
+# Look to import these function from pelican module down the line.
+# Dupe it here for now for backwards compatibility with older versions of pelican
+def parse_arguments():
+    parser = argparse.ArgumentParser(description="""A tool to generate a
+    static blog, with restructured text input files.""",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        
+    parser.add_argument(dest='path', nargs='?', help="Path where to find content files", default=None)
+    parser.add_argument('-s', '--settings', dest='settings',
+        help='The settings of the application.')
+        
+    return parser.parse_args()
+
 args = parse_arguments()
 settings = read_settings(args.settings)
 
@@ -87,19 +100,6 @@ class GitHookRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                 local_file = os.path.join(local_dir, f)
                 if local_file not in whitelisted_files:
                     git_repo.rm(['-r', local_file])
-
-# Look to import these function from pelican module down the line.
-# Dupe it here for now for backwards compatibility with older versions of pelican
-def parse_arguments():
-    parser = argparse.ArgumentParser(description="""A tool to generate a
-    static blog, with restructured text input files.""",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-        
-    parser.add_argument('-s', '--settings', dest='settings',
-        help='The settings of the application.')
-        
-    return parser.parse_args()
-
 
 httpd = SocketServer.ForkingTCPServer(('', PORT), GitHookRequestHandler)
 print "PelicanGit listening on port", PORT
