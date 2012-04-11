@@ -6,21 +6,32 @@ import urllib
 import os
 import shutil
 import re
-from pelican import main
+from pelican import main, parse_arguments
+from pelican.settings import read_settings, _DEFAULT_CONFIG
 from gitbindings import *
 
 PORT = 8080
+
 GET_RESPONSE_BODY = "<h1>PelicanGit is Running</h1>"
 POST_RESPONSE_BODY = "<h1>Pelican Project Rebuilt</h1>"
 ERROR_RESPONSE_BODY = "<h1>Error</h1>"
 
-source_repo = GitRepo("/work/blog", "origin", "master")
-deploy_repo = GitRepo("/work/theon.github.com", "origin", "master")
+args = parse_arguments()
+settings = read_settings(args.settings)
 
-whitelisted_files = [
-    "README.md",
-    "googled50a97559ea3af0e.html"
-]
+source_repo = GitRepo(
+    settings['SOURCE_GIT_REPO'],
+    settings['SOURCE_GIT_REMOTE'],
+    settings['SOURCE_GIT_BRANCH']
+)
+
+deploy_repo = GitRepo(
+    settings['DEPLOY_GIT_REPO'],
+    settings['DEPLOY_GIT_REMOTE'],
+    settings['DEPLOY_GIT_BRANCH']
+)
+
+whitelisted_files = settings['GIT_WHITELISTED_FILES']
 
 class GitHookRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
     def do_GET(self):
