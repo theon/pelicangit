@@ -4,25 +4,25 @@ from pelicangit.args import parse_arguments
 
 def main():
     
-    PORT = 8080
-
     args = parse_arguments()
     settings = read_settings(args.settings)
 
     source_repo = GitRepo(
-        settings['SOURCE_GIT_REPO'],
-        settings['SOURCE_GIT_REMOTE'],
-        settings['SOURCE_GIT_BRANCH']
+        settings['PELICANGIT_SOURCE_REPO'],
+        settings['PELICANGIT_SOURCE_REMOTE'],
+        settings['PELICANGIT_SOURCE_BRANCH']
     )
 
     deploy_repo = GitRepo(
-        settings['DEPLOY_GIT_REPO'],
-        settings['DEPLOY_GIT_REMOTE'],
-        settings['DEPLOY_GIT_BRANCH']
+        settings['PELICANGIT_DEPLOY_REPO'],
+        settings['PELICANGIT_DEPLOY_REMOTE'],
+        settings['PELICANGIT_DEPLOY_BRANCH']
     )
 
-    whitelisted_files = settings['GIT_WHITELISTED_FILES']
+    whitelisted_files = settings['PELICANGIT_WHITELISTED_FILES']
 
-    httpd = GitHookServer(('', PORT), GitHookRequestHandler, source_repo, deploy_repo, whitelisted_files)
-    print "PelicanGit listening on port", PORT
+    port = settings['PELICANGIT_PORT']
+
+    httpd = GitHookServer(('', port), GitHookRequestHandler, source_repo, deploy_repo, whitelisted_files)
+    print "PelicanGit listening on port", port
     httpd.serve_forever()

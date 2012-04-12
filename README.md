@@ -4,11 +4,11 @@ PelicanGit is a python script that will automatically build your Pelican powered
 
 The script will start a simple HTTP server. When the server recieves a POST (from a git service hook, indicating you have pushed a new blog post in markdown or restructuredtext), it will pull down these updates, run pelican to compile them to HTML and then commit and push the resulting HTML into another git repository (e.g. a github pages repo).
 
+Example:
+![pelicangit example](http://lh4.googleusercontent.com/-KPeKZ92FhaE/T4IeoedMY_I/AAAAAAAACXE/fSpxiJ_iCwE/s876/PelicanGit.png)
+
 ## To Do
 
- * Add the ability to whitelist files to keep (at the moment any files not created by pelican get whacked during a build).
- * Move the variables in the script so that they live in with the standard pelican config file? Also explain these variables in more detail in these docs.
- * Copy the commit message(s) from the source repo (containing the markdown) and use it when commiting the resulting HTML to the deploy repo.
  * Option to specify the user/SSh keypair to use
  * Submit as a python package [here](http://pypi.python.org/pypi?%3Aaction=submit_form)
 
@@ -17,19 +17,55 @@ The script will start a simple HTTP server. When the server recieves a POST (fro
 ### Prerequisites:
 
  * Install [setuptools](http://pypi.python.org/pypi/setuptools)
- * Install [pip](http://www.pip-installer.org/en/latest/installing.html with) `curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py | sudo python` 
+ * Install [pip](http://www.pip-installer.org/en/latest/installing.html) with `curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py | sudo python` 
  * Install [pelican](http://pelican.notmyidea.org/en/2.8/getting_started.html#installing) with `sudo pip install pelican`
  ** Be sure to install markdown if required with `sudo pip install Markdown` and any themes you require with `pelican-themes` 
  * Install gitpython with `sudo easy_install gitpython`
 
 ### Installing pelicangit:
 
- * Clone git repo with `git clone git@github.com:theon/pelican-git.git`
- * Set the variables at the top of the script to appropriate values, especially the ones starting SOURCE_GIT and DEPLOY_GIT
+1) Clone git repo with `git clone git@github.com:theon/pelican-git.git`
+
+Todo: submit as python package so we can instead install with `pip` or `easy_install` 
+
+2) Add these variables to your pelican config file (the files you pass with the `-s` argument to pelican
+        
+    PELICANGIT_SOURCE_REPO="/path/to/source/markdown/repo"
+    PELICANGIT_SOURCE_REMOTE="origin"
+    PELICANGIT_SOURCE_BRANCH="master"
+
+    PELICANGIT_DEPLOY_REPO="/path/to/deploy/html/repo"
+    PELICANGIT_DEPLOY_REMOTE="origin"
+    PELICANGIT_DEPLOY_BRANCH="master"
+    
+    PELICANGIT_WHITELISTED_FILES = [
+        "README.md"
+    ]
+    
+    PELICANGIT_PORT=8080
+
+`PELICANGIT_SOURCE_REPO` is the git repo you push new blog articles to in markdown or restructuredtext.
+`PELICANGIT_DEPLOY_REPO` is the git repo pelicangit will push your HTML converted blog articles to.
+`GIT_WHITELISTED_FILES` is a list of files pelicangit will not delete. By default, pelicangit assumes everything in the `PELICANGIT_DEPLOY_REPO` git repo is the output from pelican, and everytime it runs, it does a `git rm` on all files before regenerating your entire blog. If you have any files in your `PELICANGIT_DEPLOY_REPO` that are not the output from pelican then add them to this whitelist variable. I currently use this for a google webmaster tools verification html file and a github readme file.    
+`PELICANGIT_PORT` is the port the pelicangit will listen on for the git service hook you will configure in the next step
+
+3) Setup your git hook
+
+The git service hook is the mechanism which informs pelicangit whenever you commit content (markdown/restructuredtext) to your `PELICANGIT_SOURCE_REPO` and gets it to kick off pelican. 
+
+For github:
+ * Go to your github repo where you keep your source markdown (i.e. the `PELICANGIT_SOURCE_REPO` you set in step 2)
+ * Click the 'Administration' button
+ * Click 'Service Hooks' from the left hand nav
+ * Click 'Post-Receive URLs' service hook
+ * Add the URL/IP of the server you are running pelicangit. Note pelicangit currently runs on port 8080 (todo: make this configurable)
+ * Once you have pelicangit running (see instructions below) you can use the 'Test Hook' button to check the hook is working 
+
+### Running pelicangit
 
 #### Running Directly
 
- * Call the script with the same arguments you would call pelican. For example, I call it with `pelicangit.py -s /path/to/pelican.conf.py /path/to/markdown`
+ * Call the pelicangit.py script with the same arguments you would call pelican. For example, I call it with `pelicangit.py -s /path/to/pelican.conf.py /path/to/markdown`
  ** *Important:* at the moment you have to call the script with the same user who owns the valid SSH keypair for the git repos
 
 #### Running with Upstart
