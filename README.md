@@ -52,8 +52,8 @@ Todo: submit as python package so we can instead install with `pip` or `easy_ins
 3) Setup your git hook
 
 The git service hook is the mechanism which informs pelicangit whenever you commit content (markdown/restructuredtext) to your `PELICANGIT_SOURCE_REPO` and gets it to kick off pelican. 
-
 For github:
+
  * Go to your github repo where you keep your source markdown (i.e. the `PELICANGIT_SOURCE_REPO` you set in step 2)
  * Click the 'Administration' button
  * Click 'Service Hooks' from the left hand nav
