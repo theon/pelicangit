@@ -9,7 +9,7 @@ Here is an example:
 
 ## To Do
 
- * Option to specify the user/SSh keypair to use
+ * Option to specify the user/SSH keypair to use
  * Submit as a python package [here](http://pypi.python.org/pypi?%3Aaction=submit_form)
 
 ## Installing
@@ -28,7 +28,7 @@ Here is an example:
 
 Todo: submit as python package so we can instead install with `pip` or `easy_install` 
 
-2) Add these variables to your pelican config file (the files you pass with the `-s` argument to pelican
+2) Add these variables to your pelican config file (the file you pass with the `-s` argument to pelican
         
     PELICANGIT_SOURCE_REPO="/path/to/source/markdown/repo"
     PELICANGIT_SOURCE_REMOTE="origin"
@@ -44,10 +44,10 @@ Todo: submit as python package so we can instead install with `pip` or `easy_ins
     
     PELICANGIT_PORT=8080
 
-`PELICANGIT_SOURCE_REPO` is the git repo you push new blog articles to in markdown or restructuredtext.
-`PELICANGIT_DEPLOY_REPO` is the git repo pelicangit will push your HTML converted blog articles to.
-`GIT_WHITELISTED_FILES` is a list of files pelicangit will not delete. By default, pelicangit assumes everything in the `PELICANGIT_DEPLOY_REPO` git repo is the output from pelican, and everytime it runs, it does a `git rm` on all files before regenerating your entire blog. If you have any files in your `PELICANGIT_DEPLOY_REPO` that are not the output from pelican then add them to this whitelist variable. I currently use this for a google webmaster tools verification html file and a github readme file.    
-`PELICANGIT_PORT` is the port the pelicangit will listen on for the git service hook you will configure in the next step
+ * `PELICANGIT_SOURCE_REPO` is the git repo you push new blog articles to in markdown or restructuredtext.
+ * `PELICANGIT_DEPLOY_REPO` is the git repo pelicangit will push your HTML converted blog articles to.
+ * `GIT_WHITELISTED_FILES` is a list of files pelicangit will not delete. By default, pelicangit assumes everything in the `PELICANGIT_DEPLOY_REPO` git repo is the output from pelican, and everytime it runs, it does a `git rm` on all files before regenerating your entire blog. If you have any files in your `PELICANGIT_DEPLOY_REPO` that are not the output from pelican then add them to this whitelist variable. I currently use this for a google webmaster tools verification html file and a github readme file.    
+ * `PELICANGIT_PORT` is the port the pelicangit will listen on for the git service hook you will configure in the next step
 
 3) Setup your git hook
 
