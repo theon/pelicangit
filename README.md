@@ -9,7 +9,7 @@ The script will start a simple HTTP server. When the server recieves a POST (fro
 *Note: Currently pelicangit only works on unix environments and has only been tested on Ubuntu.* 
 
 Here is an example:
-.. image:: http://lh4.googleusercontent.com/-KPeKZ92FhaE/T4IeoedMY_I/AAAAAAAACXE/fSpxiJ_iCwE/s876/PelicanGit.png
+.. figure:: http://lh4.googleusercontent.com/-KPeKZ92FhaE/T4IeoedMY_I/AAAAAAAACXE/fSpxiJ_iCwE/s876/PelicanGit.png
 
 Installing
 ==========
@@ -17,14 +17,10 @@ Installing
 Prerequisites:
 --------------
 
- * Install setuptools_
- * Install pip_ with ``curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py | sudo python``
- * Install pelican_ with ``sudo pip install pelican``
+ * Install `setuptools <http://pypi.python.org/pypi/setuptools>`_
+ * Install `pip <http://www.pip-installer.org/en/latest/installing.html>`_ with ``curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py | sudo python``
+ * Install `pelican <http://pelican.notmyidea.org/en/2.8/getting_started.html#installing>`_ with ``sudo pip install pelican``
  ** Be sure to install markdown if required with ``sudo pip install Markdown`` and any themes you require with ``pelican-themes`` 
-
-.. _setuptools: http://pypi.python.org/pypi/setuptools
-.. _pip http://www.pip-installer.org/en/latest/installing.html
-.. _pelican http://pelican.notmyidea.org/en/2.8/getting_started.html#installing
 
 Installing pelicangit:
 ----------------------
@@ -88,6 +84,4 @@ If you need to do any debugging, logs currently live at ``/home/${PELICANGIT_USE
 
 ## Also See
 
-`Blog article`_
-
-.. _`Blog article`: http://theon.github.com/powering-your-blog-with-pelican-and-git.html)
+`Blog article <http://theon.github.com/powering-your-blog-with-pelican-and-git.html>`_
