@@ -2,15 +2,13 @@
 pelicangit
 ==========
 
+.. image:: http://lh4.googleusercontent.com/-KPeKZ92FhaE/T4IeoedMY_I/AAAAAAAACXE/fSpxiJ_iCwE/s876/PelicanGit.png
+
 pelicangit is a python script that will automatically build your Pelican powered blog whenever you commit a blog post into git.
 
 The script will start a simple HTTP server. When the server recieves a POST (from a git service hook, indicating you have pushed a new blog post in markdown or restructuredtext), it will pull down these updates, run pelican to compile them to HTML and then commit and push the resulting HTML into another git repository (e.g. a github pages repo). This can be especially useful when writing blog posts on a client which cannot run pelican locally (e.g. a chromebook)
 
 *Note: Currently pelicangit only works on unix environments and has only been tested on Ubuntu.* 
-
-Here is an example:
-
-.. image:: http://lh4.googleusercontent.com/-KPeKZ92FhaE/T4IeoedMY_I/AAAAAAAACXE/fSpxiJ_iCwE/s876/PelicanGit.png
 
 Installing
 ==========
@@ -82,11 +80,11 @@ Upstart will keep pelicangit long running (will restart it if it crashes, or the
 *Note: Even if upstart runs pelicangit as the root user, pelican git will change to the unix user sepcified by the ``PELICANGIT_USER`` variable to run git and pelican 
 
 Logging
--------
+=======
 
 If you need to do any debugging, logs currently live at ``/home/${PELICANGIT_USER}/pelicangit.log`` where ``PELICANGIT_USER`` is the variable specified in your pelican config file. 
 
 Also See
---------
+========
 
 `Blog article <http://theon.github.com/powering-your-blog-with-pelican-and-git.html>`_
