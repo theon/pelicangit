@@ -9,7 +9,7 @@ The script will start a simple HTTP server. When the server recieves a POST (fro
 *Note: Currently pelicangit only works on unix environments and has only been tested on Ubuntu.* 
 
 Here is an example:
-.. figure:: http://lh4.googleusercontent.com/-KPeKZ92FhaE/T4IeoedMY_I/AAAAAAAACXE/fSpxiJ_iCwE/s876/PelicanGit.png
+.. image:: http://lh4.googleusercontent.com/-KPeKZ92FhaE/T4IeoedMY_I/AAAAAAAACXE/fSpxiJ_iCwE/s876/PelicanGit.png
 
 Installing
 ==========
