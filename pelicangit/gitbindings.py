@@ -37,7 +37,7 @@ class GitRepo:
         args.insert(0, firstArg)
         args.insert(0, 'git')
         
-        output = sp.check_output(args, cwd=self.repoDir, preexec_fn=change_user(self.user_uid, self.user_gid))
+        output = sp.check_output(args, cwd=self.repoDir)
         logging.info(output)
         
         return output

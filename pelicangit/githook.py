@@ -44,7 +44,7 @@ class GitHookRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             print e
             
             #In the event of an excepion, hard reset both repos so they match the remote (origin) master branches
-            self.hard_reset_repos()
+#            self.hard_reset_repos()
             self.do_response(ERROR_RESPONSE_BODY)
 
 
