@@ -1,6 +1,6 @@
 from pelicangit.githook import *
 from pelicangit.args import parse_arguments
-from pelicangit.args import setup_logging
+from pelicangit.log import setup_logging
 from pelican import read_settings
 import logging
 import os
@@ -35,7 +35,7 @@ def main():
     port = settings['PELICANGIT_PORT']
 
     httpd = GitHookServer(('', port), GitHookRequestHandler, source_repo, deploy_repo, whitelisted_files)
-    logger.info("PelicanGit listening on port " + port)
+    logger.info("PelicanGit listening on port " + str(port))
     httpd.serve_forever()
     
 def change_user(user):
