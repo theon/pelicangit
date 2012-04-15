@@ -81,6 +81,10 @@ This git repo contains an upstart config I have used on ubuntu running in Amazon
  * Copy upstart/pelicangit.conf to /etc/init/
  * Run `sudo start pelicangit`
 
+## Logging
+
+If you need to do any debugging, logs currently live at `/home/${PELICANGIT_USER}/pelicangit.log` where `PELICANGIT_USER` is the variable specified in your pelican config file. 
+
 ## Also See
 
 [Blog article](http://theon.github.com/powering-your-blog-with-pelican-and-git.html)
