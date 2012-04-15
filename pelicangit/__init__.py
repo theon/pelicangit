@@ -10,13 +10,18 @@ def main():
     args = parse_arguments()
     settings = read_settings(args.settings)
    
-    user = settings['PELICANGIT_SOURCE_USER']
+    user = settings['PELICANGIT_USER']
     change_user(user)
     
     home_dir = os.path.expanduser("~")
     log_file = os.path.join(home_dir, 'pelicangit.log')
-    print log_file
-    logging.basicConfig(filename=log_file, level=logging.DEBUG)
+    
+    logging.basicConfig(
+        filename=log_file, 
+        level=logging.DEBUG, 
+        format='%(levelname)s %(asctime)s :: %(message)s', 
+        datefmt='%m/%d/%Y %I:%M:%S %p'
+    )
     
     source_repo = GitRepo(
         settings['PELICANGIT_SOURCE_REPO'],
@@ -35,7 +40,7 @@ def main():
     port = settings['PELICANGIT_PORT']
 
     httpd = GitHookServer(('', port), GitHookRequestHandler, source_repo, deploy_repo, whitelisted_files)
-    print "PelicanGit listening on port", port
+    logging.info("PelicanGit listening on port " + port)
     httpd.serve_forever()
     
 def change_user(user):

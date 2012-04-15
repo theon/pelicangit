@@ -1,6 +1,5 @@
 import subprocess as sp
 import logging
-import pwd
 
 class GitRepo:
     def __init__(self, repoDir, origin, master):
@@ -38,6 +37,6 @@ class GitRepo:
         args.insert(0, 'git')
         
         output = sp.check_output(args, cwd=self.repoDir)
-        logging.info(output)
+        logging.debug(output)
         
         return output
