@@ -18,25 +18,27 @@ Installing
 Prerequisites:
 --------------
 
- * Install `setuptools <http://pypi.python.org/pypi/setuptools>`_
- * Install `pip <http://www.pip-installer.org/en/latest/installing.html>`_ with ``curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py | sudo python``
- * Install `pelican <http://pelican.notmyidea.org/en/2.8/getting_started.html#installing>`_ with ``sudo pip install pelican``
- ** Be sure to install markdown if required with ``sudo pip install Markdown`` and any themes you require with ``pelican-themes`` 
+* Install `setuptools <http://pypi.python.org/pypi/setuptools>`_
+* Install `pip <http://www.pip-installer.org/en/latest/installing.html>`_ with ``curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py | sudo python``
+* Install `pelican <http://pelican.notmyidea.org/en/2.8/getting_started.html#installing>`_ with ``sudo pip install pelican``
+- Be sure to install markdown if required with ``sudo pip install Markdown`` and any themes you require with ``pelican-themes`` 
 
 Installing pelicangit:
 ----------------------
 
 1) Run ``sudo python setup.py install`` 
 2) Add these variables to your pelican config file (the file you pass with the ``-s`` argument to pelican
-        
+
+::
+
     PELICANGIT_SOURCE_REPO="/path/to/source/markdown/repo"
     PELICANGIT_SOURCE_REMOTE="origin"
     PELICANGIT_SOURCE_BRANCH="master"
-
+    
     PELICANGIT_DEPLOY_REPO="/path/to/deploy/html/repo"
     PELICANGIT_DEPLOY_REMOTE="origin"
     PELICANGIT_DEPLOY_BRANCH="master"
-
+    
     PELICANGIT_USER = "ubuntu"
     PELICANGIT_WHITELISTED_FILES = [
         "README.md"
@@ -55,12 +57,12 @@ Installing pelicangit:
 The git service hook is the mechanism which informs pelicangit whenever you commit content (markdown/restructuredtext) to your `PELICANGIT_SOURCE_REPO` and gets it to kick off pelican. 
 For github:
 
- * Go to your github repo where you keep your source markdown (i.e. the ``PELICANGIT_SOURCE_REPO`` you set in step 2)
- * Click the 'Administration' button
- * Click 'Service Hooks' from the left hand nav
- * Click 'Post-Receive URLs' service hook
- * Add the URL/IP of the server you are running pelicangit. The port will be the value used in the ``PELICANGIT_PORT`` setting from step 2. 
- * Once you have pelicangit running (see instructions below) you can use the 'Test Hook' button to check the hook is working 
+* Go to your github repo where you keep your source markdown (i.e. the ``PELICANGIT_SOURCE_REPO`` you set in step 2)
+* Click the 'Administration' button
+* Click 'Service Hooks' from the left hand nav
+* Click 'Post-Receive URLs' service hook
+* Add the URL/IP of the server you are running pelicangit. The port will be the value used in the ``PELICANGIT_PORT`` setting from step 2. 
+* Once you have pelicangit running (see instructions below) you can use the 'Test Hook' button to check the hook is working 
 
 Running pelicangit
 ==================
