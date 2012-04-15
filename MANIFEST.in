@@ -1,0 +1,4 @@
+include *.md
+global-include *.py
+recursive-include pelicangit
+include LICENSE

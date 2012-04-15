@@ -35,4 +35,5 @@ setup(
                    'Topic :: Internet :: WWW/HTTP',
                    'Topic :: Software Development :: Libraries :: Python Modules',
                    ],
+    data_files=[('/etc/init', ['upstart/pelicangit.conf'])],
 )
