@@ -1,6 +1,8 @@
 import subprocess as sp
 import logging
 
+logger = logging.getLogger('pelicangit')
+
 class GitRepo:
     def __init__(self, repoDir, origin, master):
         self.repoDir = repoDir
@@ -37,6 +39,6 @@ class GitRepo:
         args.insert(0, 'git')
         
         output = sp.check_output(args, cwd=self.repoDir)
-        logging.debug(output)
+        logger.debug(output)
         
         return output

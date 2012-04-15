@@ -1,9 +1,12 @@
 from pelicangit.githook import *
-from pelican import read_settings
 from pelicangit.args import parse_arguments
+from pelicangit.args import setup_logging
+from pelican import read_settings
 import logging
 import os
 import pwd
+
+logger = logging.getLogger('pelicangit')
 
 def main():
     
@@ -13,15 +16,7 @@ def main():
     user = settings['PELICANGIT_USER']
     change_user(user)
     
-    home_dir = os.path.expanduser("~")
-    log_file = os.path.join(home_dir, 'pelicangit.log')
-    
-    logging.basicConfig(
-        filename=log_file, 
-        level=logging.DEBUG, 
-        format='%(levelname)s %(asctime)s :: %(message)s', 
-        datefmt='%m/%d/%Y %I:%M:%S %p'
-    )
+    setup_logging()
     
     source_repo = GitRepo(
         settings['PELICANGIT_SOURCE_REPO'],
@@ -40,7 +35,7 @@ def main():
     port = settings['PELICANGIT_PORT']
 
     httpd = GitHookServer(('', port), GitHookRequestHandler, source_repo, deploy_repo, whitelisted_files)
-    logging.info("PelicanGit listening on port " + port)
+    logger.info("PelicanGit listening on port " + port)
     httpd.serve_forever()
     
 def change_user(user):
