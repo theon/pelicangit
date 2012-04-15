@@ -3,15 +3,11 @@ import logging
 import pwd
 
 class GitRepo:
-    def __init__(self, user, repoDir, origin, master):
+    def __init__(self, repoDir, origin, master):
         self.repoDir = repoDir
         self.origin = origin
         self.master = master
         self.originMaster = origin + '/' + master
-        
-        pw_record = pwd.getpwnam(user)
-        self.user_uid = pw_record.pw_uid
-        self.user_gid = pw_record.pw_gid
 
     def log(self, args):
         self.git_exec('log', args)
@@ -45,9 +41,3 @@ class GitRepo:
         logging.info(output)
         
         return output
-        
-def change_user(user_uid, user_gid):
-    def result():
-        os.setgid(user_gid)
-        os.setuid(user_uid)
-    return result
