@@ -1,6 +1,4 @@
-==========
-pelicangit
-==========
+# pelicangit
 
 pelicangit is a python script that will automatically build your Pelican powered blog whenever you commit a blog post into git.
 
@@ -9,27 +7,27 @@ The script will start a simple HTTP server. When the server recieves a POST (fro
 *Note: Currently pelicangit only works on unix environments and has only been tested on Ubuntu.* 
 
 Here is an example:
-.. image:: http://lh4.googleusercontent.com/-KPeKZ92FhaE/T4IeoedMY_I/AAAAAAAACXE/fSpxiJ_iCwE/s876/PelicanGit.png
+![pelicangit example](http://lh4.googleusercontent.com/-KPeKZ92FhaE/T4IeoedMY_I/AAAAAAAACXE/fSpxiJ_iCwE/s876/PelicanGit.png)
 
-Installing
-==========
+## To Do
 
-Prerequisites:
---------------
+ * Submit as a python package [here](http://pypi.python.org/pypi?%3Aaction=submit_form)
 
- * Install setuptools_
- * Install pip_ with `curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py | sudo python` 
- * Install pelican_ with `sudo pip install pelican`
+## Installing
+
+### Prerequisites:
+
+ * Install [setuptools](http://pypi.python.org/pypi/setuptools)
+ * Install [pip](http://www.pip-installer.org/en/latest/installing.html) with `curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py | sudo python` 
+ * Install [pelican](http://pelican.notmyidea.org/en/2.8/getting_started.html#installing) with `sudo pip install pelican`
  ** Be sure to install markdown if required with `sudo pip install Markdown` and any themes you require with `pelican-themes` 
 
-.. _setuptools: http://pypi.python.org/pypi/setuptools
-.. _pip http://www.pip-installer.org/en/latest/installing.html
-.. _pelican http://pelican.notmyidea.org/en/2.8/getting_started.html#installing
+### Installing pelicangit:
 
-Installing pelicangit:
-----------------------
+1) Clone git repo with `git clone git@github.com:theon/pelican-git.git`
 
-1) Run `sudo python setup.py install` 
+Todo: submit as python package so we can instead install with `pip` or `easy_install` 
+
 2) Add these variables to your pelican config file (the file you pass with the `-s` argument to pelican
         
     PELICANGIT_SOURCE_REPO="/path/to/source/markdown/repo"
@@ -62,25 +60,25 @@ For github:
  * Click the 'Administration' button
  * Click 'Service Hooks' from the left hand nav
  * Click 'Post-Receive URLs' service hook
- * Add the URL/IP of the server you are running pelicangit. The port will be the value used in the `PELICANGIT_PORT` setting from step 2. 
+ * Add the URL/IP of the server you are running pelicangit. Note pelicangit currently runs on port 8080 (todo: make this configurable)
  * Once you have pelicangit running (see instructions below) you can use the 'Test Hook' button to check the hook is working 
 
-Running pelicangit
-==================
+### Running pelicangit
 
-Running Directly
-----------------
+#### Running Directly
 
-Call the `pelicangit` with the same arguments you would call pelican. For example: `pelicangit -s /path/to/pelican.conf.py /path/to/markdown`
+Call the pelicangit.py script with the same arguments you would call pelican. For example, for my blog I would call it with `pelicangit.py -s /path/to/pelican.conf.py /path/to/markdown`
 
-Running with Upstart
---------------------
+#### Running with Upstart
 
-`sudo start pelicangit`
+Upstart will keep pelicangit long running (will restart it if it crashes, or the machine reboots).
+This git repo contains an upstart config I have used on ubuntu running in Amazon EC2.
 
-Upstart will keep pelicangit long running (will restart it if it crashes, or the machine reboots). By installing pelicangit, an upstart configuration file will be installed at `/etc/init/pelicangit.conf`.
+*Note: Even if upstart runs pelicangit as the root user, pelican git will change to the unix user sepcified by the `PELICANGIT_USER` variable to run git and pelican commands* 
 
-*Note: Even if upstart runs pelicangit as the root user, pelican git will change to the unix user sepcified by the `PELICANGIT_USER` variable to run git and pelican 
+ * Update the upstart/pelicangit.conf `exec` line to use your pelicangit command.
+ * Copy upstart/pelicangit.conf to /etc/init/
+ * Run `sudo start pelicangit`
 
 ## Logging
 
