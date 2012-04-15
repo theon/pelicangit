@@ -1,8 +1,10 @@
-# PelicanGit
+# pelicangit
 
-PelicanGit is a python script that will automatically build your Pelican powered blog whenever you commit a blog post into git.
+pelicangit is a python script that will automatically build your Pelican powered blog whenever you commit a blog post into git.
 
 The script will start a simple HTTP server. When the server recieves a POST (from a git service hook, indicating you have pushed a new blog post in markdown or restructuredtext), it will pull down these updates, run pelican to compile them to HTML and then commit and push the resulting HTML into another git repository (e.g. a github pages repo). This can be especially useful when writing blog posts on a client which cannot run pelican locally (e.g. a chromebook)
+
+Note: Currently pelicangit only works on unix environments and has only been tested on Ubuntu. 
 
 Here is an example:
 ![pelicangit example](http://lh4.googleusercontent.com/-KPeKZ92FhaE/T4IeoedMY_I/AAAAAAAACXE/fSpxiJ_iCwE/s876/PelicanGit.png)
