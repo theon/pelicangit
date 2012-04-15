@@ -81,10 +81,12 @@ Upstart will keep pelicangit long running (will restart it if it crashes, or the
 
 *Note: Even if upstart runs pelicangit as the root user, pelican git will change to the unix user sepcified by the ``PELICANGIT_USER`` variable to run git and pelican 
 
-## Logging
+Logging
+-------
 
 If you need to do any debugging, logs currently live at ``/home/${PELICANGIT_USER}/pelicangit.log`` where ``PELICANGIT_USER`` is the variable specified in your pelican config file. 
 
-## Also See
+Also See
+--------
 
 `Blog article <http://theon.github.com/powering-your-blog-with-pelican-and-git.html>`_
