@@ -70,11 +70,6 @@ For github:
 Running pelicangit
 ==================
 
-Running Directly
-----------------
-
-Call the ``pelicangit`` with the same arguments you would call pelican. For example: ``pelicangit -s /path/to/pelican.conf.py /path/to/markdown``
-
 Running with Upstart
 --------------------
 
@@ -83,6 +78,11 @@ Running with Upstart
 Upstart will keep pelicangit long running (will restart it if it crashes, or the machine reboots). By installing pelicangit, an upstart configuration file will be installed at ``/etc/init/pelicangit.conf``.
 
 When running with upstart, pelicangit will look for your pelican configuration file at ``/etc/pelicangit/pelican.conf.py``. This will be the only argument pelicangit passed to pelican, so you will need to use the ``PATH`` and ``OUTPUT_PATH`` variables to define where your content and output paths are as defined `here <http://pelican.notmyidea.org/en/2.8/settings.html#basic-settings>`_  
+
+Running Directly
+----------------
+
+Call the ``pelicangit`` with the same arguments you would call pelican. For example: ``pelicangit -s /path/to/pelican.conf.py /path/to/markdown``
 
 Logging
 =======
