@@ -29,7 +29,7 @@ Run ``sudo pip install pelicangit``
 Extra Pelican Settings
 ^^^^^^^^^^^^^^^^^^^^^^
 
-Add these variables to your pelican config file (the file you pass with the ``-s`` argument to pelican
+Add these variables to your pelican config file (the file you pass with the ``-s`` argument to pelican)
 
 ::
 
