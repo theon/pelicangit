@@ -2,7 +2,7 @@
 pelicangit
 ==========
 
-.. image:: http://lh4.googleusercontent.com/-KPeKZ92FhaE/T4IeoedMY_I/AAAAAAAACXE/fSpxiJ_iCwE/s400/PelicanGit.png
+.. image:: http://lh4.googleusercontent.com/-KPeKZ92FhaE/T4IeoedMY_I/AAAAAAAACXE/fSpxiJ_iCwE/s876/PelicanGit.png
 
 pelicangit is a python script that will automatically build your Pelican powered blog whenever you commit a blog post into git.
 
