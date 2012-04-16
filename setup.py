@@ -21,7 +21,7 @@ setup(
     author = 'Ian Forsey',
     author_email = 'forsey@gmail.com',
     description = "",
-    long_description=open('README.md').read(),
+    long_description=open('README.rst').read(),
     packages = ['pelicangit'],
     include_package_data = True,
     install_requires = requires,
