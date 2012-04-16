@@ -19,12 +19,12 @@ Prerequisites:
 * Install `setuptools <http://pypi.python.org/pypi/setuptools>`_
 * Install `pip <http://www.pip-installer.org/en/latest/installing.html>`_ with ``curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py | sudo python``
 * Install `pelican <http://pelican.notmyidea.org/en/2.8/getting_started.html#installing>`_ with ``sudo pip install pelican``
-- Be sure to install markdown if required with ``sudo pip install Markdown`` and any themes you require with ``pelican-themes`` 
+* Be sure to install markdown if required with ``sudo pip install Markdown`` and any themes you require with ``pelican-themes`` 
 
 Installing pelicangit:
 ----------------------
 
-Run ``sudo python setup.py install`` 
+Run ``sudo pip install pelicangit`` 
 
 Extra Pelican Settings
 ^^^^^^^^^^^^^^^^^^^^^^
