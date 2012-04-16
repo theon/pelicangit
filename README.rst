@@ -2,13 +2,12 @@
 pelicangit
 ==========
 
-.. image:: http://lh4.googleusercontent.com/-KPeKZ92FhaE/T4IeoedMY_I/AAAAAAAACXE/fSpxiJ_iCwE/s876/PelicanGit.png
-
-pelicangit is a python script that will automatically build your Pelican powered blog whenever you commit a blog post into git.
+pelicangit is a python script that will automatically build your Pelican powered blog whenever you push a blog post into git.
 
 The script will start a simple HTTP server. When the server recieves a POST (from a git service hook, indicating you have pushed a new blog post in markdown or restructuredtext), it will pull down these updates, run pelican to compile them to HTML and then commit and push the resulting HTML into another git repository (e.g. a github pages repo). This can be especially useful when writing blog posts on a client which cannot run pelican locally (e.g. a chromebook)
 
 *Note: Currently pelicangit only works on unix environments and has only been tested on Ubuntu.* 
+.. image:: http://lh4.googleusercontent.com/-KPeKZ92FhaE/T4IeoedMY_I/AAAAAAAACXE/fSpxiJ_iCwE/s876/PelicanGit.png
 
 Installing
 ==========
@@ -24,8 +23,12 @@ Prerequisites:
 Installing pelicangit:
 ----------------------
 
-1) Run ``sudo python setup.py install`` 
-2) Add these variables to your pelican config file (the file you pass with the ``-s`` argument to pelican
+Run ``sudo python setup.py install`` 
+
+Extra Pelican Settings
+^^^^^^^^^^^^^^^^^^^^^^
+
+Add these variables to your pelican config file (the file you pass with the ``-s`` argument to pelican
 
 ::
 
@@ -50,7 +53,8 @@ Installing pelicangit:
 * ``GIT_WHITELISTED_FILES`` is a list of files pelicangit will not delete. By default, pelicangit assumes everything in the ``PELICANGIT_DEPLOY_REPO`` git repo is the output from pelican, and everytime it runs, it does a `git rm` on all files before regenerating your entire blog. If you have any files in your ``PELICANGIT_DEPLOY_REPO`` that are not the output from pelican then add them to this whitelist variable. I currently use this for a google webmaster tools verification html file and a github readme file.    
 * ``PELICANGIT_PORT`` is the port the pelicangit will listen on for the git service hook you will configure in the next step
 
-3) Setup your git hook
+Setup your git hook
+^^^^^^^^^^^^^^^^^^^
 
 The git service hook is the mechanism which informs pelicangit whenever you commit content (markdown/restructuredtext) to your `PELICANGIT_SOURCE_REPO` and gets it to kick off pelican. 
 For github:
@@ -77,9 +81,7 @@ Running with Upstart
 
 Upstart will keep pelicangit long running (will restart it if it crashes, or the machine reboots). By installing pelicangit, an upstart configuration file will be installed at ``/etc/init/pelicangit.conf``.
 
-When running with upstart, pelicangit will look for your pelican configuration file at ``/etc/pelicangit/pelican.conf.py``. This will be the only argument pelicangit passed to pelican, so you will need to use the ``PATH`` and ``OUTPUT_PATH`` variables to define where your content and output paths as defined `here <http://pelican.notmyidea.org/en/2.8/settings.html#basic-settings>`_  
-
-*Note: Even if upstart runs pelicangit as the root user, pelican git will change to the unix user sepcified by the ``PELICANGIT_USER`` variable to run git and pelican 
+When running with upstart, pelicangit will look for your pelican configuration file at ``/etc/pelicangit/pelican.conf.py``. This will be the only argument pelicangit passed to pelican, so you will need to use the ``PATH`` and ``OUTPUT_PATH`` variables to define where your content and output paths are as defined `here <http://pelican.notmyidea.org/en/2.8/settings.html#basic-settings>`_  
 
 Logging
 =======
