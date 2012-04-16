@@ -2,7 +2,7 @@
 pelicangit
 ==========
 
-.. image:: http://lh4.googleusercontent.com/-KPeKZ92FhaE/T4IeoedMY_I/AAAAAAAACXE/fSpxiJ_iCwE/s876/PelicanGit.png
+.. image:: http://lh4.googleusercontent.com/-KPeKZ92FhaE/T4IeoedMY_I/AAAAAAAACXE/fSpxiJ_iCwE/s400/PelicanGit.png
 
 pelicangit is a python script that will automatically build your Pelican powered blog whenever you commit a blog post into git.
 
@@ -76,6 +76,8 @@ Running with Upstart
 ``sudo start pelicangit``
 
 Upstart will keep pelicangit long running (will restart it if it crashes, or the machine reboots). By installing pelicangit, an upstart configuration file will be installed at ``/etc/init/pelicangit.conf``.
+
+When running with upstart, pelicangit will look for your pelican configuration file at ``/etc/pelicangit/pelican.conf.py``. This will be the only argument pelicangit passed to pelican, so you will need to use the ``PATH`` and ``OUTPUT_PATH`` variables to define where your content and output paths as defined `here <http://pelican.notmyidea.org/en/2.8/settings.html#basic-settings>`_  
 
 *Note: Even if upstart runs pelicangit as the root user, pelican git will change to the unix user sepcified by the ``PELICANGIT_USER`` variable to run git and pelican 
 
