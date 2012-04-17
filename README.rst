@@ -10,6 +10,13 @@ The script will start a simple HTTP server. When the server recieves a POST (fro
 
 .. image:: http://lh4.googleusercontent.com/-KPeKZ92FhaE/T4IeoedMY_I/AAAAAAAACXE/fSpxiJ_iCwE/s876/PelicanGit.png
 
+Quick Start
+===========
+
+1) If you have `pelican <http://pelican.notmyidea.org/en/2.8/getting_started.html#installing>`_ and `pip <http://www.pip-installer.org/en/latest/installing.html>`_ installed, simply run: ``sudo pip install pelicangit``
+2) Copy your pelican configuration to ```` and add the variables specified in the `Extra Pelican Settings`_ section 
+3) Run with ``sudo start pelicangit``
+
 Installing
 ==========
 
@@ -89,6 +96,10 @@ Logging
 
 If you need to do any debugging, logs currently live at ``/home/${PELICANGIT_USER}/pelicangit.log`` where ``PELICANGIT_USER`` is the variable specified in your pelican config file. 
 
+Source Code
+===========
+
+If you are reading this on http://pypi.python.org you can access the source code at http://github.com/theon/pelicangit
 Also See
 ========
 
