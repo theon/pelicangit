@@ -14,7 +14,7 @@ Quick Start
 ===========
 
 1) If you have `pelican <http://pelican.notmyidea.org/en/2.8/getting_started.html#installing>`_ and `pip <http://www.pip-installer.org/en/latest/installing.html>`_ installed, simply run: ``sudo pip install pelicangit``
-2) Copy your pelican configuration to ```` and add the variables specified in the `Extra Pelican Settings`_ section 
+2) Copy your pelican configuration to ``/etc/pelicangit/pelican.conf.py`` and add the variables specified in the `Extra Pelican Settings`_ section 
 3) Run with ``sudo start pelicangit``
 
 Installing
